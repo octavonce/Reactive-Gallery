@@ -54,7 +54,7 @@ export default class App extends Component {
         }
 
         return (
-            <div style={inlineStyles.galleryDimensions}>
+            <div className={styles.gallery} style={inlineStyles.galleryDimensions}>
                 <Gallery images={images} />
             </div>
         )

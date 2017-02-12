@@ -6,7 +6,7 @@ export default class Gallery extends Component {
         const images = this.props.images;
 
         return (
-            <div>
+            <div className={styles.picContainer}>
                 {Object.keys(images).map(key => {
                     return <div className={styles.pic}><img src={images[key].src}></img></div>
                 })}

@@ -2,3 +2,31 @@
     position: absolute;
     background-color: black;
 }
+
+.picContainer { 
+  padding: .5vw;
+  font-size: 0;
+  display: -ms-flexbox;
+  -ms-flex-wrap: wrap;
+  -ms-flex-direction: column;
+  -webkit-flex-flow: row wrap; 
+  flex-flow: row wrap; 
+  display: -webkit-box;
+  display: flex;
+}
+.picContainer .pic { 
+  -webkit-box-flex: auto;
+  -ms-flex: auto;
+  flex: auto; 
+  width: 350px; 
+  margin: .5vw; 
+}
+.picContainer .pic img { 
+  width: 100%; 
+  height: auto; 
+}
+@media screen and (max-width: 400px) {
+  .pic div { margin: 0; }
+  .pic { padding: 0; }
+  
+}

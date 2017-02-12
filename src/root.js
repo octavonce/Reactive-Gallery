@@ -4,10 +4,13 @@ import styles from './assets/css/gallery.css';
 
 export default class App extends Component {
     render() {
+        const rootContainer = document.getElementById('root');
+        const dimensions = rootContainer.getBoundingClientRect();
+
         const inlineStyles = {
             galleryDimensions: {
-                width: document.getElementById('root').clientWidth,
-                height: document.getElementById('root').clientHeight
+                width: dimensions.width,
+                height: dimensions.height
             }
         }
 

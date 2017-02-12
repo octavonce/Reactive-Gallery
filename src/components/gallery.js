@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styles from '../assets/css/gallery.css';
+import helpers from '../utils/helpers.js';
 
 export default class Gallery extends Component {
     render() {
@@ -7,8 +8,8 @@ export default class Gallery extends Component {
 
         return (
             <div className={styles.picContainer}>
-                {Object.keys(images).map(key => {
-                    return <div className={styles.pic}><img src={images[key].src}></img></div>
+                {images.map(src => {
+                    return <div key={helpers.getRandomString(5)} className={styles.pic}><img src={src}/></div>
                 })}
             </div>
         )

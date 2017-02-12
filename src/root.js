@@ -1,60 +1,47 @@
 import React, { Component } from 'react';
 import Gallery from './components/gallery.js';
 import styles from './assets/css/gallery.css';
+import { WindowResizeListener } from 'react-window-resize-listener';
 
-export default class App extends Component {
-    render() {
-        const rootContainer = document.getElementById('root');
+export default class Root extends Component {
+    componentWillMount() {
+        const rootContainer = document.getElementById('reactive-gallery');
         const dimensions = rootContainer.getBoundingClientRect();
 
-        const inlineStyles = {
-            galleryDimensions: {
+        this.state = {
+            dimensions: {
                 width: dimensions.width,
                 height: dimensions.height
-            }
+            } 
         }
+    }
 
-        const images = {
-            'img1': {
-                src: 'http://lorempixel.com/400/200/'
-            },
-            'img2': {
-                src: 'http://lorempixel.com/400/200/'
-            },
-            'img3': {
-                src: 'http://lorempixel.com/400/200/'
-            },
-            'img4': {
-                src: 'http://lorempixel.com/400/200/'
-            },
-            'img5': {
-                src: 'http://lorempixel.com/400/200/'
-            },
-            'img6': {
-                src: 'http://lorempixel.com/400/200/'
-            },
-            'img7': {
-                src: 'http://lorempixel.com/400/200/'
-            },
-            'img8': {
-                src: 'http://lorempixel.com/400/200/'
-            },
-            'img9': {
-                src: 'http://lorempixel.com/400/200/'
-            },
-            'img10': {
-                src: 'http://lorempixel.com/400/200/'
-            },
-            'img11': {
-                src: 'http://lorempixel.com/400/200/'
-            },
-            'img12': {
-                src: 'http://lorempixel.com/400/200/'
-            }
-        }
+    render() {
+        const galleryDimensions = this.state.dimensions;
+       
+        const images = [
+            'http://lorempixel.com/400/200/',
+            'http://lorempixel.com/400/200/',
+            'http://lorempixel.com/400/200/',
+            'http://lorempixel.com/500/200/',
+            'http://lorempixel.com/1200/800/',
+            'http://lorempixel.com/900/400/',
+            'http://lorempixel.com/1920/1080/',
+            'http://lorempixel.com/400/400/',
+            'http://lorempixel.com/400/400/',
+            'http://lorempixel.com/400/400/'
+        ]
 
         return (
-            <div className={styles.gallery} style={inlineStyles.galleryDimensions}>
+            <div className={styles.gallery} style={galleryDimensions}>
+                <WindowResizeListener onResize={windowSize => {
+                    this.setState({
+                        dimensions: {
+                            width: windowSize.windowWidth - 27,
+                            height: windowSize.windowHeight
+                        }
+                    })
+                }}/>
                 <Gallery images={images} />
             </div>
         )

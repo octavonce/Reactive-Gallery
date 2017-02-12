@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import styles from '../assets/css/gallery.css';
 
 export default class Gallery extends Component {
     render() {
@@ -7,7 +8,7 @@ export default class Gallery extends Component {
         return (
             <div>
                 {Object.keys(images).map(key => {
-                    return <img src={images[key].src}></img>
+                    return <div className={styles.pic}><img src={images[key].src}></img></div>
                 })}
             </div>
         )

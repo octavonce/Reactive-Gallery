@@ -12,6 +12,7 @@
   flex-flow: row wrap; 
   display: -webkit-box;
   display: flex;
+
 }
 .picContainer .pic { 
   -webkit-box-flex: auto;
@@ -19,11 +20,13 @@
   flex: auto; 
   width: 350px; 
   margin: .5vw; 
+   display:flex;
+  justify-content: center;
+  align-items:center;
+ 
 }
 .picContainer .pic img { 
-  width: 100%; 
-  vertical-align: middle;
-  height: auto; 
+  width: 100%;
 }
 @media screen and (max-width: 400px) {
   .pic div { margin: 0; }

@@ -17,8 +17,6 @@ export default class Root extends Component {
     }
 
     render() {
-        const galleryDimensions = this.state.dimensions;
-       
         const images = [
             'http://lorempixel.com/400/200/',
             'http://lorempixel.com/400/200/',
@@ -33,11 +31,11 @@ export default class Root extends Component {
         ]
 
         return (
-            <div className={styles.gallery} style={galleryDimensions}>
+            <div className={styles.gallery} style={this.state.dimensions}>
                 <WindowResizeListener onResize={windowSize => {
                     this.setState({
                         dimensions: {
-                            width: windowSize.windowWidth - 27,
+                            width: windowSize.windowWidth - 16,
                             height: windowSize.windowHeight
                         }
                     })

@@ -2,34 +2,79 @@ import React, { Component } from 'react';
 import Gallery from './components/gallery.js';
 import styles from './assets/css/gallery.css';
 import { WindowResizeListener } from 'react-window-resize-listener';
+import Overlay from './components/overlay.js';
 
 export default class Root extends Component {
+    constructor(props) {
+        super(props)
+
+        /*
+            These functions need to be called 
+            from the gallery so we bind 'this' to it
+         */
+
+        this.renderOverlay = this.renderOverlay.bind(this);
+        this.closeOverlay = this.closeOverlay.bind(this);
+    }
+
     componentWillMount() {
-        const rootContainer = document.getElementById('reactive-gallery');
+        const rootContainer = document.getElementById(this.props.containerId);
         const dimensions = rootContainer.getBoundingClientRect();
 
         this.state = {
             dimensions: {
                 width: dimensions.width,
                 height: dimensions.height
-            } 
+            },
+            showOverlay: false,
+            shownImage: null
         }
     }
 
+    renderOverlay(image) {
+        this.setState({
+            showOverlay: true,
+            shownImage: image
+        })
+    }
+
+    closeOverlay() {
+        this.setState({
+            showOverlay: false,
+            shownImage: null
+        })
+    }
+
+    resizeImage(image, maxWidth, maxHeight) {
+
+        /*
+            We need to resize the images
+            while keeping their aspect ratio
+         */
+
+        let height = image.dimensions.height;
+        let width = image.dimensions.width;
+        let ratio = height / width;
+
+        if (width > maxWidth) {
+            width = maxWidth;
+            height = width / ratio;
+        }
+
+        if (height > maxHeight) {
+            ratio = width / height;
+            height = maxHeight;
+            width = height / ratio;
+        }
+
+        image.dimensions.height = height;
+        image.dimensions.width = width;
+
+        return image;
+    }
+
     render() {
-        const images = [
-            'http://lorempixel.com/400/200/',
-            'http://lorempixel.com/400/200/',
-            'http://lorempixel.com/400/200/',
-            'http://lorempixel.com/500/300/',
-            'http://lorempixel.com/1200/800/',
-            'http://lorempixel.com/900/400/',
-            'http://lorempixel.com/1920/1080/',
-            'http://lorempixel.com/400/400/',
-            'http://lorempixel.com/400/400/',
-            'http://lorempixel.com/400/400/',
-            'http://lorempixel.com/4280/2100/'
-        ]
+        const showOverlay = this.state.showOverlay;
 
         return (
             <div className={styles.gallery} style={this.state.dimensions}>
@@ -42,7 +87,9 @@ export default class Root extends Component {
                     })
                 }}/>
 
-                <Gallery images={images} />
+                { showOverlay ? <Overlay image={ this.state.shownImage } resizeImage={ this.resizeImage } closeOverlay={ this.closeOverlay } /> : null }
+                
+                <Gallery renderOverlay={this.renderOverlay} closeOverlay={this.closeOverlay} resizeImage={this.resizeImage} images={this.props.images} />
             </div>
         )
     }

@@ -13,7 +13,7 @@ export default class Overlay extends Component {
     }
 
     render() {
-        const img = this.props.resizeImage(this.props.image, 800, 600);
+        const img = this.props.resizeImage(this.props.image, 1440, 960);
         
         return (
             <div className={ styles.overlay }>

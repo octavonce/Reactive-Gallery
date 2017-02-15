@@ -5,7 +5,7 @@ body {
 }
 
 .overlay {
-    position: absolute;
+    position: fixed;
     height: 100%;
     width: 100%;
     background-color: black;
@@ -13,9 +13,22 @@ body {
 }
 
 .overlayPic {
-    margin: 0 auto;
-    margin-top: 20%;
-    vertical-align: middle;
+    position: absolute;
+    top: 50%!important;
+    left: 50%!important;
+    -webkit-transform: translate(-50%, -50%)!important;
+    -moz-transform: translate(-50%, -50%)!important;
+    -ms-transform: translate(-50%, -50%)!important;
+    -o-transform: translate(-50%, -50%)!important;
+    transform: translate(-50%, -50%)!important;
+}
+
+@media screen and (orientation: portrait) {
+    .overlayPic { max-width: 90%!important; }
+}
+
+@media screen and (orientation: landscape) {
+    .overlayPic { max-height: 90%!important; }
 }
 
 .closeBtn { 

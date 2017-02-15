@@ -2,19 +2,17 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import styles from '../assets/css/gallery.css';
 import helpers from '../utils/helpers.js';
-import Overlay from './overlay.js';
 
 export default class Gallery extends Component {
+    propTypes: {
+        renderOverlay: React.PropTypes.func.isRequired,
+        closeOverlay: React.PropTypes.func.isRequired,
+        images: React.PropTypes.Array
+    }
+
     constructor(props) {
         super(props);
 
-        /*
-            This function needs to be called 
-            from the overlay so we bind 'this' to it
-         */
-
-        this.closeOverlay = this.closeOverlay.bind(this);
-        
         this.state = {
             images: []
         };
@@ -71,71 +69,25 @@ export default class Gallery extends Component {
         }
     }
 
-    displayOverlay(image) {
-        this.setState({
-            displayOverlay: true,
-            shownImage: image
-        })
-    }
-
-    closeOverlay() {
-        this.setState({
-            displayOverlay: false,
-            shownImage: null
-        })
-    }
-
-    resizeImage(image, maxWidth, maxHeight) {
-
-        /*
-            We need to resize the images
-            while keeping their aspect ratio
-         */
-
-        let height = image.dimensions.height;
-        let width = image.dimensions.width;
-        let ratio = height / width;
-
-        if (width > maxWidth) {
-            width = maxWidth;
-            height = width / ratio;
-        }
-
-        if (height > maxHeight) {
-            ratio = width / height;
-            height = maxHeight;
-            width = height / ratio;
-        }
-
-        image.dimensions.height = height;
-        image.dimensions.width = width;
-
-        return image;
-    }
-
     render() {
-        const displayOverlay = this.state.displayOverlay;
+        const showOverlay = this.state.showOverlay;
 
         return (
-            <div>
-                <div className={ !displayOverlay ? styles.picContainer : styles.hidden }>
-                    {this.state.images.map((image, index) => {
-                        const resizedImage = this.resizeImage(image, 380, 200);
-
-                        return (
-                            <div key={ index } className={ !displayOverlay ? styles.pic : styles.hidden }>
-                                <img 
-                                    src={ image.src } 
-                                    closeOverlay={ this.closeOverlay }
-                                    onClick={ () => { this.displayOverlay(image) }}
-                                    { ...image.dimensions }
-                                />
-                            </div>
-                        )
-                    })}
-                </div>
-
-                { displayOverlay ? <Overlay image={ this.state.shownImage } resizeImage={ this.resizeImage } closeOverlay={ this.closeOverlay } /> : null }
+            <div className={ !showOverlay ? styles.picContainer : styles.hidden }>
+                {this.state.images.map((image, index) => {
+                    const resizedImage = this.props.resizeImage(image, 380, 200);
+                    
+                    return (
+                        <div key={ index } className={ !showOverlay ? styles.pic : styles.hidden }>
+                            <img 
+                                src={ image.src } 
+                                closeOverlay={ this.props.closeOverlay }
+                                onClick={ () => { this.props.renderOverlay(image) } }
+                                { ...resizedImage.dimensions }
+                            />
+                        </div>
+                    )
+                })}
             </div>
         )
     }

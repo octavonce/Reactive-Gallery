@@ -14,11 +14,14 @@ export default class Gallery extends Component {
         super(props);
 
         this.state = {
-            images: []
+            images: [],
+            widths: []
         };
     }
 
     componentWillMount() {
+        const images = [];
+        const widths = [];
         
         /*
             Gets the dimensions of an image at a given url
@@ -43,14 +46,14 @@ export default class Gallery extends Component {
                 const images = self.state.images;
 
                 images.unshift({dimensions: dimensions, src: url});
+                widths.push(dimensions.width);
 
                 self.setState({
-                    images: images
+                    images: images,
+                    witdths: widths
                 })
             });
         }
-
-        const images = [];
 
         /*
             Continuously pushes images inside an array
@@ -61,9 +64,11 @@ export default class Gallery extends Component {
         for (const image of this.props.images) {
             getDimensions(image, dimensions => {
                 images.push({dimensions: dimensions, src: image});
+                widths.push(dimensions.width);
 
                 this.setState({
-                    images: images
+                    images: images,
+                    widths: widths
                 })
             });
         }
@@ -71,12 +76,24 @@ export default class Gallery extends Component {
 
     render() {
         const showOverlay = this.state.showOverlay;
+        const medianWidth = this.calculateMedianWidth(this.state.widths);
+        const invisibleDivs = [];
+
+        /*
+            It seems for loops are not
+            allowed in those curly brackets
+            thingies   
+         */
+
+        for (let i = 0; i < 20; i++) {
+            invisibleDivs.push(null);
+        }
 
         return (
             <div className={ !showOverlay ? styles.picContainer : styles.hidden }>
                 {this.state.images.map((image, index) => {
                     const resizedImage = this.props.resizeImage(image, 380, 200);
-                    
+
                     return (
                         <div key={ index } className={ !showOverlay ? styles.pic : styles.hidden }>
                             <img 
@@ -88,7 +105,32 @@ export default class Gallery extends Component {
                         </div>
                     )
                 })}
+
+                {invisibleDivs.map((div, index) => {
+                    return <div key={index} className={ styles.invisible } style={ medianWidth }></div>;
+                })}
             </div>
         )
+    }
+
+    calculateMedianWidth(widths) {
+        if (widths.length > 0) {
+            let totalWidth = 0;
+
+            widths.forEach(width => {
+                totalWidth += width;
+            });
+
+            const medianWidth = totalWidth / widths.length;
+
+            // TODO: Calculate the offset
+            // and set it accordingly
+
+            const widthOffSet = 15;
+
+            return { width: medianWidth + widthOffSet } 
+        } else {
+            return { width: 0 }
+        }
     }
 }

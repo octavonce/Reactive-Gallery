@@ -6,6 +6,10 @@
   display: none;
 }
 
+.invisible {
+    background-color: transparent;
+}
+
 .picContainer { 
     -ms-flex-direction: column;
     -ms-flex-wrap: wrap;

@@ -33,6 +33,7 @@ const sameSizeImages = [
     'http://lorempixel.com/800/600/',
     'http://lorempixel.com/800/600/',
     'http://lorempixel.com/800/600/',
+    'http://lorempixel.com/800/600/'
 ]
 
 const containerId = 'reactive-gallery';

@@ -1,10 +1,19 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import styles from '../assets/css/gallery.css';
 import helpers from '../utils/helpers.js';
+import Overlay from './overlay.js';
 
 export default class Gallery extends Component {
     constructor(props) {
         super(props);
+
+        /*
+            This function needs to be called 
+            from the overlay so we bind 'this' to it
+         */
+
+        this.closeOverlay = this.closeOverlay.bind(this);
         
         this.state = {
             images: []
@@ -62,39 +71,70 @@ export default class Gallery extends Component {
         }
     }
 
+    displayOverlay(image) {
+        this.setState({
+            displayOverlay: true,
+            shownImage: image
+        })
+    }
+
+    closeOverlay() {
+        this.setState({
+            displayOverlay: false,
+            shownImage: null
+        })
+    }
+
     render() {
+        const displayOverlay = this.state.displayOverlay;
+
         return (
-            <div className={styles.picContainer}>
-                {this.state.images.map((image, index) => {
+            <div>
+                <div className={ !displayOverlay ? styles.picContainer : styles.hidden }>
+                    {this.state.images.map((image, index) => {
 
-                    /*
-                        We need to resize the images
-                        while keeping their aspect ratio
-                     */
+                        /*
+                            We need to resize the images
+                            while keeping their aspect ratio
+                         */
 
-                    const maxWidth = 650;
-                    const maxHeight = 360;
+                        const maxWidth = 650;
+                        const maxHeight = 360;
 
-                    let height = image.dimensions.height;
-                    let width = image.dimensions.width;
-                    let ratio = 0;
+                        let height = image.dimensions.height;
+                        let width = image.dimensions.width;
+                        let ratio = 0;
 
-                    if (width > maxWidth) {
-                        ratio = maxWidth / width;
-                        width = maxWidth;
-                        height = height * ratio;
-                        width = width * ratio;
-                    }
+                        if (width > maxWidth) {
+                            ratio = maxWidth / width;
+                            width = maxWidth;
+                            height = height * ratio;
+                            width = width * ratio;
+                        }
 
-                    if (height > maxHeight) {
-                        ratio = maxHeight / height;
-                        height = maxHeight;
-                        width = width * ratio;
-                        height = height * ratio;
-                    }
+                        if (height > maxHeight) {
+                            ratio = maxHeight / height;
+                            height = maxHeight;
+                            width = width * ratio;
+                            height = height * ratio;
+                        }
 
-                    return <div key={index} className={styles.pic}><img height={height} width={width} src={image.src}/></div>
-                })}
+                        return (
+                            <div key={ index } className={ !displayOverlay ? styles.pic : styles.hidden }>
+                                <img 
+                                    height={ height } 
+                                    width={ width } 
+                                    src={ image.src } 
+                                    closeOverlay={ this.closeOverlay }
+                                    onClick={ () => { this.displayOverlay(image) }}
+                                />
+                            </div>
+                        )
+                    })}
+                </div>
+
+                {/* Checks the state if we should display the overlay or not */}
+                { displayOverlay ? <Overlay { ...this.state.shownImage } closeOverlay={ this.closeOverlay } /> : null }
             </div>
         )
     }

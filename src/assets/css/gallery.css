@@ -1,8 +1,13 @@
 .gallery {
-    position: absolute;
+
+}
+
+.hidden {
+  display: none;
 }
 
 .picContainer { 
+  position: absolute;
   padding: .5vw;
   font-size: 0;
   display: -ms-flexbox;
@@ -12,6 +17,7 @@
   flex-flow: row wrap; 
   display: -webkit-box;
   display: flex;
+  z-index: 1;
 
 }
 .picContainer .pic { 

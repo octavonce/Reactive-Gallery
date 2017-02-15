@@ -1,0 +1,27 @@
+body {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+.overlay {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: black;
+    z-index:  9000;
+}
+
+.overlayPic {
+    margin: 0 auto;
+    vertical-align: middle;
+}
+
+.closeBtn { 
+    position: fixed;
+    left: 90%;
+    top: 5%;
+    width: 60px;
+    height: 60px;
+    background-image: url('../images/x-btn.png');
+}

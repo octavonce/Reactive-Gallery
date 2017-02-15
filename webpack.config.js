@@ -24,6 +24,8 @@ module.exports = {
         {
             test: /\.css$/, 
             loader: 'style-loader!css-loader?modules=true&localIdentName=[name]__[local]___[hash:base64:5]'
-        }]
+        },
+        {test: /\.(jpe?g|png|gif|svg)$/i, loader: "file-loader?name=images/[name].[ext]"}
+        ]
     }
 };

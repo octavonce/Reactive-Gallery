@@ -85,6 +85,37 @@ export default class Gallery extends Component {
         })
     }
 
+    resizeImage(image, maxWidth, maxHeight) {
+
+        /*
+            We need to resize the images
+            while keeping their aspect ratio
+         */
+
+        let height = image.dimensions.height;
+        let width = image.dimensions.width;
+        let ratio = 0;
+
+        if (width > maxWidth) {
+            ratio = maxWidth / width;
+            width = maxWidth;
+            height = height * ratio;
+            width = width * ratio;
+        }
+
+        if (height > maxHeight) {
+            ratio = maxHeight / height;
+            height = maxHeight;
+            width = width * ratio;
+            height = height * ratio;
+        }
+
+        image.dimensions.height = height;
+        image.dimensions.width = width;
+
+        return image;
+    }
+
     render() {
         const displayOverlay = this.state.displayOverlay;
 
@@ -92,41 +123,15 @@ export default class Gallery extends Component {
             <div>
                 <div className={ !displayOverlay ? styles.picContainer : styles.hidden }>
                     {this.state.images.map((image, index) => {
-
-                        /*
-                            We need to resize the images
-                            while keeping their aspect ratio
-                         */
-
-                        const maxWidth = 650;
-                        const maxHeight = 360;
-
-                        let height = image.dimensions.height;
-                        let width = image.dimensions.width;
-                        let ratio = 0;
-
-                        if (width > maxWidth) {
-                            ratio = maxWidth / width;
-                            width = maxWidth;
-                            height = height * ratio;
-                            width = width * ratio;
-                        }
-
-                        if (height > maxHeight) {
-                            ratio = maxHeight / height;
-                            height = maxHeight;
-                            width = width * ratio;
-                            height = height * ratio;
-                        }
+                        const resizedImage = this.resizeImage(image, 650, 360);
 
                         return (
                             <div key={ index } className={ !displayOverlay ? styles.pic : styles.hidden }>
                                 <img 
-                                    height={ height } 
-                                    width={ width } 
                                     src={ image.src } 
                                     closeOverlay={ this.closeOverlay }
                                     onClick={ () => { this.displayOverlay(image) }}
+                                    { ...image.dimensions }
                                 />
                             </div>
                         )
@@ -134,7 +139,7 @@ export default class Gallery extends Component {
                 </div>
 
                 {/* Checks the state if we should display the overlay or not */}
-                { displayOverlay ? <Overlay { ...this.state.shownImage } closeOverlay={ this.closeOverlay } /> : null }
+                { displayOverlay ? <Overlay image={ this.state.shownImage } resizeImage={ this.resizeImage } closeOverlay={ this.closeOverlay } /> : null }
             </div>
         )
     }

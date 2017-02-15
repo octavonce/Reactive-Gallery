@@ -3,7 +3,8 @@ import styles from '../assets/css/overlay.css';
 
 export default class Overlay extends Component {
     propTypes: {
-        closeOverlay: React.propTypes.func.isRequired
+        closeOverlay: React.propTypes.func.isRequired,
+        resizeImage: React.propTypes.func.isRequired
     }
 
     constructor(props) {
@@ -12,13 +13,12 @@ export default class Overlay extends Component {
     }
 
     render() {
-        const src = this.state.src;
-        const dimensions = this.state.dimensions;
+        const img = this.props.resizeImage(this.props.image, 800, 600);
         
         return (
             <div className={ styles.overlay }>
                 <span className={ styles.closeBtn } onClick={ this.props.closeOverlay } />
-                <img className={ styles.overlayPic } src={ src } { ...dimensions } />
+                <img className={ styles.overlayPic } src={ img.src } { ...img.dimensions } />
             </div>
         )
     }

@@ -23,12 +23,12 @@ export default class Gallery extends Component {
     componentWillMount() {
         
         /*
-            Gets the dimensions an image at a given url
+            Gets the dimensions of an image at a given url
             which are accessible inside the callback
          */
 
         function getDimensions(url, callback) {
-            var img = new Image();
+            let img = new Image();
             img.src = url;
             img.onload = function() { callback({ width: this.width, height: this.height }); }
         }
@@ -120,7 +120,7 @@ export default class Gallery extends Component {
             <div>
                 <div className={ !displayOverlay ? styles.picContainer : styles.hidden }>
                     {this.state.images.map((image, index) => {
-                        const resizedImage = this.resizeImage(image, 650, 360);
+                        const resizedImage = this.resizeImage(image, 380, 200);
 
                         return (
                             <div key={ index } className={ !displayOverlay ? styles.pic : styles.hidden }>
@@ -134,7 +134,7 @@ export default class Gallery extends Component {
                         )
                     })}
                 </div>
-                
+
                 { displayOverlay ? <Overlay image={ this.state.shownImage } resizeImage={ this.resizeImage } closeOverlay={ this.closeOverlay } /> : null }
             </div>
         )

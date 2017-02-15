@@ -9,11 +9,12 @@ body {
     height: 100%;
     width: 100%;
     background-color: black;
-    z-index:  9000;
+    z-index: 9000;
 }
 
 .overlayPic {
     margin: 0 auto;
+    margin-top: 20%;
     vertical-align: middle;
 }
 

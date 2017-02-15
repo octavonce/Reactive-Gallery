@@ -40,6 +40,7 @@ export default class Root extends Component {
                         }
                     })
                 }}/>
+
                 <Gallery images={images} />
             </div>
         )

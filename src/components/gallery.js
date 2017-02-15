@@ -94,20 +94,17 @@ export default class Gallery extends Component {
 
         let height = image.dimensions.height;
         let width = image.dimensions.width;
-        let ratio = 0;
+        let ratio = height / width;
 
         if (width > maxWidth) {
-            ratio = maxWidth / width;
             width = maxWidth;
-            height = height * ratio;
-            width = width * ratio;
+            height = width / ratio;
         }
 
         if (height > maxHeight) {
-            ratio = maxHeight / height;
+            ratio = width / height;
             height = maxHeight;
-            width = width * ratio;
-            height = height * ratio;
+            width = height / ratio;
         }
 
         image.dimensions.height = height;
@@ -137,8 +134,7 @@ export default class Gallery extends Component {
                         )
                     })}
                 </div>
-
-                {/* Checks the state if we should display the overlay or not */}
+                
                 { displayOverlay ? <Overlay image={ this.state.shownImage } resizeImage={ this.resizeImage } closeOverlay={ this.closeOverlay } /> : null }
             </div>
         )

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import styles from '../assets/css/gallery.css';
-import helpers from '../utils/helpers.js';
+import utils from '../lib/utils.js';
 
 export default class Gallery extends Component {
     propTypes: {
@@ -34,27 +34,6 @@ export default class Gallery extends Component {
             img.onload = function() { callback({ width: this.width, height: this.height }); }
         }
 
-        /* 
-            Pushes an image inside the gallery
-
-            Note: pass 'this' as an argument
-            so we can manage the state inside the function
-         */
-
-        function pushImage(url, self) {
-            getDimensions(url, dimensions => {
-                const images = self.state.images;
-
-                images.unshift({dimensions: dimensions, src: url});
-                widths.push(dimensions.width);
-
-                self.setState({
-                    images: images,
-                    widths: widths
-                })
-            });
-        }
-
         /*
             Continuously pushes images inside an array
             and then triggers a state change with each new
@@ -81,7 +60,7 @@ export default class Gallery extends Component {
         return (
             <div className={ !showOverlay ? styles.picContainer : styles.hidden }>
                 {this.state.images.map((image, index) => {
-                    const resizedImage = this.props.resizeImage(image, 380, 200);
+                    const resizedImage = utils.resizeImage(image, 380, 200);
 
                     return (
                         <div key={ index } className={ !showOverlay ? styles.pic : styles.hidden }>

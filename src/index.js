@@ -1,50 +1,99 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Root from './root';
+import { Provider } from 'react-redux';
+import gallery from './reducers/gallery.js'
+import GalleryContainer from './containers/gallery.js';
+import store from './store.js';
+import { 
+    appendImage, 
+    prependImage, 
+    resizeGallery, 
+    toggleResize,
+    toggleOverlay } from './actions/gallery.js';
 
-const images = [
-    'http://lorempixel.com/400/200/',
-    'http://lorempixel.com/400/200/',
-    'http://lorempixel.com/400/200/',
-    'http://lorempixel.com/400/400/',
-    'http://lorempixel.com/500/300/',
-    'http://lorempixel.com/1200/800/',
-    'http://lorempixel.com/900/400/',
-    'http://lorempixel.com/1920/1080/',
-    'http://lorempixel.com/400/400/',
-    'http://lorempixel.com/400/400/',
-    'http://lorempixel.com/800/600/',
-    'http://lorempixel.com/800/600/',
-    'http://lorempixel.com/4280/2100/',
-    'http://lorempixel.com/800/600/',
-    'http://lorempixel.com/800/600/',
-    'http://lorempixel.com/800/600/'
-]
 
-const sameSizeImages = [
-    'http://lorempixel.com/1280/720/',
-    'http://lorempixel.com/1280/720/',
-    'http://lorempixel.com/1280/720/',
-    'http://lorempixel.com/1280/720/',
-    'http://lorempixel.com/1280/720/',
-    'http://lorempixel.com/1280/720/',
-    'http://lorempixel.com/1280/720/',
-    'http://lorempixel.com/1280/720/',
-    'http://lorempixel.com/1280/720/',
-    'http://lorempixel.com/1280/720/',
-    'http://lorempixel.com/1280/720/',
-    'http://lorempixel.com/1280/720/',
-    'http://lorempixel.com/1280/720/',
-    'http://lorempixel.com/1280/720/',
-    'http://lorempixel.com/1280/720/',
-    'http://lorempixel.com/1280/720/',
-    'http://lorempixel.com/1280/720/',
-    'http://lorempixel.com/1280/720/',
-    'http://lorempixel.com/1280/720/',
-    'http://lorempixel.com/1280/720/',
-    'http://lorempixel.com/1280/720/'
-]
+const reactiveGallery = options => {
+    let containerId;
+    let storedImages = [];
+ 
+    const renderGallery = (images, id) => {
+        const rootContainer = document.getElementById(id);
+        const dimensions = rootContainer.getBoundingClientRect();
+        
+        constructGalleryDimensions(dimensions)
+            .then(checkForResize)
+            .then(appendInitialImages(images))
+            .then(setInitialOverlayState)
+            .then(renderInitialGallery(id));
+    }
 
-const containerId = 'reactive-gallery';
+    const appendInitialImages = images => {
+        return new Promise((resolve, reject) => {
+            images.forEach((image, index) => {
+                store.dispatch(appendImage(image));
+                if (index === images.length - 1) resolve();
+            })
+        })
+    }
 
-ReactDOM.render(<Root images={sameSizeImages} containerId={containerId} />, document.getElementById(containerId));
+    const checkForResize = dimensions => {
+        return new Promise((resolve, reject) => {
+
+            /*  
+                Is the container the same width as the window?
+                We shouldn't resize the gallery if it isn't so
+             */
+
+            const resize = window.innerWidth === dimensions.width ? true : false;
+            store.dispatch(toggleResize(resize));
+            resolve();
+        })
+    }
+
+    const constructGalleryDimensions = dimensions => {
+        return new Promise((resolve, reject) => {
+            store.dispatch(resizeGallery(dimensions));
+            resolve(dimensions);
+        })
+    }
+
+    const setInitialOverlayState = () => {
+        return new Promise((resolve, reject) => {
+            store.dispatch(toggleOverlay(false, null));
+            resolve()
+        })
+    }
+    
+    const renderInitialGallery = id => {
+        return new Promise((resolve, reject) => {
+            ReactDOM.render(
+                <Provider store={store}>
+                    <GalleryContainer />
+                </Provider>, 
+                document.getElementById(id)
+            );
+        })
+    } 
+
+    return {
+        createGallery: (images, id) => {
+            storedImages = images;
+            containerId = id;
+            renderGallery(images, id);
+        },
+        /*
+        prependImage: (path) => {
+            storedImages.unshift(path);
+            renderGallery(storedImages, containerId);
+        },
+
+        appendImage: (path) => {
+            storedImages.push(path);
+            renderGallery(storedImages, containerId);
+        }
+        */
+    }
+}
+
+export default reactiveGallery;
+

@@ -1,19 +1,18 @@
 import React, { Component } from 'react';
 import styles from '../assets/css/overlay.css';
+import utils from '../lib/utils.js';
 
 export default class Overlay extends Component {
     propTypes: {
-        closeOverlay: React.propTypes.func.isRequired,
-        resizeImage: React.propTypes.func.isRequired
+        closeOverlay: React.propTypes.func.isRequired
     }
 
     constructor(props) {
         super(props);
-        this.state = this.props;
     }
 
     render() {
-        const img = this.props.resizeImage(this.props.image, 1440, 960);
+        const img = utils.resizeImage(this.props.image, 1440, 960);
         
         return (
             <div className={ styles.overlay }>

@@ -13,8 +13,18 @@ import {
     toggleResize } from '../actions/gallery.js';
 
 class GalleryContainer extends Component {
+    static propTypes: {
+        images: PropTypes.array.isRequired,
+        showOverlay: PropTypes.bool.isRequired,
+        shownImage: PropTypes.string.isRequired,
+        dimensions: PropTypes.object.isRequired,
+        resize: PropTypes.bool.isRequired
+    };
+
     render() {
         const { images, showOverlay, shownImage, dimensions, resize } = this.props;
+
+        console.log(this.props);
 
         return (
             <div style={dimensions}>
@@ -25,9 +35,9 @@ class GalleryContainer extends Component {
                             height: windowSize.windowHeight 
                         }));
                     }
-                }}/>
+                }} />
 
-                { showOverlay ? <Overlay image={ shownImage }/> : null }
+                { showOverlay ? <Overlay image={ shownImage } /> : null }
                 
                 <Gallery 
                     galleryWidth={ dimensions.width }
@@ -38,14 +48,15 @@ class GalleryContainer extends Component {
     }
 }
 
-const mapStateToProps = state => ({
-    images: state.images,
-    showOverlay: state.showOverlay,
-    shownImage: state.shownImage,
-    dimensions: state.dimensions,
-    resize: state.resize
-})
-
+const mapStateToProps = state => {
+    return {
+        images: state.gallery.images,
+        showOverlay: state.gallery.showOverlay,
+        shownImage: state.gallery.shownImage,
+        dimensions: state.gallery.dimensions,
+        resize: state.gallery.resize
+    }
+}
 
 const mapDispatchToProps = dispatch => ({
     appendImage: image => dispatch(image),

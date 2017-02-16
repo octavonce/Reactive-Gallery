@@ -1,6 +1,6 @@
 import { createStore } from 'redux';
-import gallery from './reducers/gallery.js';
+import reducer from './reducers/index.js';
 
-let store = createStore(gallery);
+let store = createStore(reducer);
 
 export default store;

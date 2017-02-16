@@ -1,36 +1,20 @@
 const gallery = (state = {}, action) => {
     switch (action.type) {
-        case 'APPEND_IMAGE': 
-            return {
-                id: action.id,
-                image: action.image
-            }
-        case 'PREPEND_IMAGE':
-            return {
-                id: action.id,
-                image: action.image
-            }
-        case 'REMOVE_IMAGE':
-            return {
-                id: action.id,
-                image: action.image
-            }
         case 'RESIZE_GALLERY':
-            return {
-                id: action.id,
-                dimensions: action.dimensions
-            }
+            state.dimensions = action.dimensions;
+
+            return state;
         case 'TOGGLE_OVERLAY':
-            return {
-                id: action.id,
-                showOverlay: action.showOverlay,
-                shownImage: action.image
-            }
+            state.showOverlay = action.showOverlay;
+            state.shownImage = action.image;
+
+            return state;
         case 'TOGGLE_RESIZE':
-            return {
-                id: action.id,
-                resize: action.resize
-            }
+            state.resize = action.resize;
+            
+            return state;
+        default:
+            return state;
     }
 }
 

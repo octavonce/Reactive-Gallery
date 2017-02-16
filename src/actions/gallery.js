@@ -1,9 +1,6 @@
-let nextImageId = 0;
-
 export const appendImage = image => {
     return {
         type: 'APPEND_IMAGE',
-        id: nextImageId++,
         image: image
     }
 }
@@ -11,7 +8,6 @@ export const appendImage = image => {
 export const prependImage = image => {
     return {
         type: 'PREPEND_IMAGE',
-        id: nextImageId++,
         image: image
     }
 }
@@ -23,10 +19,10 @@ export const resizeGallery = dimensions => {
     }
 }
 
-export const toggleOverlay = (showOverlay, image) => {
+export const toggleOverlay = (showOverlay, shownImage) => {
     return {
         type: 'TOGGLE_OVERLAY',
-        shownImage: image,
+        shownImage: shownImage,
         showOverlay: showOverlay
     }
 }

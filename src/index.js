@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import { createStore } from 'redux';
 import gallery from './reducers/gallery.js'
 import GalleryContainer from './containers/gallery.js';
 import store from './store.js';
@@ -60,14 +61,17 @@ const reactiveGallery = options => {
     const setInitialOverlayState = () => {
         return new Promise((resolve, reject) => {
             store.dispatch(toggleOverlay(false, null));
-            resolve()
+            resolve();
         })
     }
     
     const renderInitialGallery = id => {
         return new Promise((resolve, reject) => {
+
+            console.log(store.getState());
+
             ReactDOM.render(
-                <Provider store={store}>
+                <Provider store={ store }>
                     <GalleryContainer />
                 </Provider>, 
                 document.getElementById(id)
@@ -81,17 +85,14 @@ const reactiveGallery = options => {
             containerId = id;
             renderGallery(images, id);
         },
-        /*
+
         prependImage: (path) => {
-            storedImages.unshift(path);
-            renderGallery(storedImages, containerId);
+            store.dispatch(appendImage(path));
         },
 
         appendImage: (path) => {
-            storedImages.push(path);
-            renderGallery(storedImages, containerId);
+            store.dispatch(prependImage(path));
         }
-        */
     }
 }
 

@@ -12,11 +12,6 @@ export default class Gallery extends Component {
 
     constructor(props) {
         super(props);
-
-        this.state = {
-            images: [],
-            widths: []
-        };
     }
 
     componentWillMount() {
@@ -38,7 +33,7 @@ export default class Gallery extends Component {
             Continuously pushes images inside an array
             and then triggers a state change with each new
             added image so we can re-render the gallery
-         */
+        
 
         for (const image of this.props.images) {
             getDimensions(image, dimensions => {
@@ -51,15 +46,16 @@ export default class Gallery extends Component {
                 })
             });
         }
+         */
     }
 
     render() {
-        const showOverlay = this.state.showOverlay;
+        const showOverlay = this.props.showOverlay;
         const invisibleDivs = [];
 
         return (
             <div className={ !showOverlay ? styles.picContainer : styles.hidden }>
-                {this.state.images.map((image, index) => {
+                {this.props.images.map((image, index) => {
                     const resizedImage = utils.resizeImage(image, 380, 200);
 
                     return (

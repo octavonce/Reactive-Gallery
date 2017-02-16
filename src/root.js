@@ -21,13 +21,21 @@ export default class Root extends Component {
         const rootContainer = document.getElementById(this.props.containerId);
         const dimensions = rootContainer.getBoundingClientRect();
 
+        /*  
+            Is the container the same width as the window?
+            We shouldn't resize the gallery if it isn't so
+         */
+
+        const resize = window.innerWidth === dimensions.width ? true : false;
+        
         this.state = {
             dimensions: {
                 width: dimensions.width,
                 height: dimensions.height
             },
             showOverlay: false,
-            shownImage: null
+            shownImage: null,
+            resize: resize
         }
     }
 
@@ -79,17 +87,26 @@ export default class Root extends Component {
         return (
             <div className={styles.gallery} style={this.state.dimensions}>
                 <WindowResizeListener onResize={windowSize => {
-                    this.setState({
-                        dimensions: {
-                            width: windowSize.windowWidth - 16,
-                            height: windowSize.windowHeight
-                        }
-                    })
+
+                    if (this.state.resize) {
+                        this.setState({
+                            dimensions: {
+                                width: windowSize.windowWidth - 16,
+                                height: windowSize.windowHeight
+                            }
+                        })
+                    }
                 }}/>
 
                 { showOverlay ? <Overlay image={ this.state.shownImage } resizeImage={ this.resizeImage } closeOverlay={ this.closeOverlay } /> : null }
                 
-                <Gallery renderOverlay={this.renderOverlay} closeOverlay={this.closeOverlay} resizeImage={this.resizeImage} images={this.props.images} />
+                <Gallery 
+                    galleryWidth={ this.state.width }
+                    renderOverlay={ this.renderOverlay } 
+                    closeOverlay={ this.closeOverlay } 
+                    resizeImage={ this.resizeImage } 
+                    images={ this.props.images } 
+                />
             </div>
         )
     }

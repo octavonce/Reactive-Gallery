@@ -50,7 +50,7 @@ export default class Gallery extends Component {
 
                 self.setState({
                     images: images,
-                    witdths: widths
+                    widths: widths
                 })
             });
         }
@@ -85,7 +85,7 @@ export default class Gallery extends Component {
             thingies   
          */
 
-        for (let i = 0; i < 20; i++) {
+        for (let i = 0; i < 10; i++) {
             invisibleDivs.push(null);
         }
 
@@ -107,7 +107,7 @@ export default class Gallery extends Component {
                 })}
 
                 {invisibleDivs.map((div, index) => {
-                    return <div key={index} className={ styles.invisible } style={ medianWidth }></div>;
+                    return <div key={ index } className={ styles.invisible } style={ medianWidth }></div>;
                 })}
             </div>
         )
@@ -126,7 +126,7 @@ export default class Gallery extends Component {
             // TODO: Calculate the offset
             // and set it accordingly
 
-            const widthOffSet = 15;
+            const widthOffSet = 44;
 
             return { width: medianWidth + widthOffSet } 
         } else {

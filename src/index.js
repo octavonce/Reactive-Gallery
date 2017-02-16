@@ -13,27 +13,36 @@ const images = [
     'http://lorempixel.com/1920/1080/',
     'http://lorempixel.com/400/400/',
     'http://lorempixel.com/400/400/',
-    'http://lorempixel.com/4280/2100/'
-]
-
-const sameSizeImages = [
     'http://lorempixel.com/800/600/',
     'http://lorempixel.com/800/600/',
-    'http://lorempixel.com/800/600/',
-    'http://lorempixel.com/800/600/',
-    'http://lorempixel.com/800/600/',
-    'http://lorempixel.com/800/600/',
-    'http://lorempixel.com/800/600/',
-    'http://lorempixel.com/800/600/',
-    'http://lorempixel.com/800/600/',
-    'http://lorempixel.com/800/600/',
-    'http://lorempixel.com/800/600/',
-    'http://lorempixel.com/800/600/',
-    'http://lorempixel.com/800/600/',
-    'http://lorempixel.com/800/600/',
+    'http://lorempixel.com/4280/2100/',
     'http://lorempixel.com/800/600/',
     'http://lorempixel.com/800/600/',
     'http://lorempixel.com/800/600/'
+]
+
+const sameSizeImages = [
+    'http://lorempixel.com/1280/720/',
+    'http://lorempixel.com/1280/720/',
+    'http://lorempixel.com/1280/720/',
+    'http://lorempixel.com/1280/720/',
+    'http://lorempixel.com/1280/720/',
+    'http://lorempixel.com/1280/720/',
+    'http://lorempixel.com/1280/720/',
+    'http://lorempixel.com/1280/720/',
+    'http://lorempixel.com/1280/720/',
+    'http://lorempixel.com/1280/720/',
+    'http://lorempixel.com/1280/720/',
+    'http://lorempixel.com/1280/720/',
+    'http://lorempixel.com/1280/720/',
+    'http://lorempixel.com/1280/720/',
+    'http://lorempixel.com/1280/720/',
+    'http://lorempixel.com/1280/720/',
+    'http://lorempixel.com/1280/720/',
+    'http://lorempixel.com/1280/720/',
+    'http://lorempixel.com/1280/720/',
+    'http://lorempixel.com/1280/720/',
+    'http://lorempixel.com/1280/720/'
 ]
 
 const containerId = 'reactive-gallery';

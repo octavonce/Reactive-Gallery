@@ -16,9 +16,9 @@
     padding: .3vw;
     display: -webkit-flex;
     display: flex;
-    -webkit-align-items: center;
+    -webkit-align-items: left;
     align-items: left;
-    -webkit-justify-content: center;
+    -webkit-justify-content: left;
     justify-content: left;
     flex-direction: column;
     flex-wrap: wrap;
@@ -28,6 +28,7 @@
     align-content: flex-start;
     z-index: 1;
     font-size: 0;
+    margin-left: 12%;
 }
 .picContainer .pic { 
     -webkit-box-flex: auto;

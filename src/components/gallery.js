@@ -76,18 +76,7 @@ export default class Gallery extends Component {
 
     render() {
         const showOverlay = this.state.showOverlay;
-        const medianWidth = this.calculateMedianWidth(this.state.widths);
         const invisibleDivs = [];
-
-        /*
-            It seems for loops are not
-            allowed in those curly brackets
-            thingies   
-         */
-
-        for (let i = 0; i < 10; i++) {
-            invisibleDivs.push(null);
-        }
 
         return (
             <div className={ !showOverlay ? styles.picContainer : styles.hidden }>
@@ -105,32 +94,7 @@ export default class Gallery extends Component {
                         </div>
                     )
                 })}
-
-                {invisibleDivs.map((div, index) => {
-                    return <div key={ index } className={ styles.invisible } style={ medianWidth }></div>;
-                })}
             </div>
         )
-    }
-
-    calculateMedianWidth(widths) {
-        if (widths.length > 0) {
-            let totalWidth = 0;
-
-            widths.forEach(width => {
-                totalWidth += width;
-            });
-
-            const medianWidth = totalWidth / widths.length;
-
-            // TODO: Calculate the offset
-            // and set it accordingly
-
-            const widthOffSet = 44;
-
-            return { width: medianWidth + widthOffSet } 
-        } else {
-            return { width: 0 }
-        }
     }
 }

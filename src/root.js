@@ -27,7 +27,7 @@ export default class Root extends Component {
          */
 
         const resize = window.innerWidth === dimensions.width ? true : false;
-        
+
         this.state = {
             dimensions: {
                 width: dimensions.width,
@@ -85,7 +85,7 @@ export default class Root extends Component {
         const showOverlay = this.state.showOverlay;
 
         return (
-            <div className={styles.gallery} style={this.state.dimensions}>
+            <div style={this.state.dimensions}>
                 <WindowResizeListener onResize={windowSize => {
 
                     if (this.state.resize) {

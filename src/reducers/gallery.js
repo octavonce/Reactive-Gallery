@@ -1,18 +1,34 @@
-const gallery = (state = {}, action) => {
+const defaultState = {
+    dimensions: {
+        width: null,
+        height: null
+    },
+    options: {
+        showOverlay: false, 
+        shownImage: null,
+        resize: null
+    }
+}
+
+const gallery = (state = defaultState, action) => {
     switch (action.type) {
         case 'RESIZE_GALLERY':
-            state.dimensions = action.dimensions;
-
-            return state;
+            return Object.assign({}, state, {
+                dimensions: action.dimensions
+            })
         case 'TOGGLE_OVERLAY':
-            state.showOverlay = action.showOverlay;
-            state.shownImage = action.image;
-
-            return state;
+            return Object.assign({}, state, {
+                options: {
+                    showOverlay: action.overlay.showOverlay,
+                    shownImage: action.overlay.shownImage
+                }
+            })
         case 'TOGGLE_RESIZE':
-            state.resize = action.resize;
-            
-            return state;
+            return Object.assign({}, state, {
+                options: {
+                    resize: action.resize
+                }
+            })
         default:
             return state;
     }

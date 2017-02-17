@@ -13,6 +13,10 @@ import {
     toggleResize } from '../actions/gallery.js';
 
 class GalleryContainer extends Component {
+    static contextTypes: {
+        store: React.PropTypes.object.isRequired,
+    }
+
     static propTypes: {
         images: PropTypes.array.isRequired,
         showOverlay: PropTypes.bool.isRequired,
@@ -22,15 +26,14 @@ class GalleryContainer extends Component {
     };
 
     render() {
-        const { images, showOverlay, shownImage, dimensions, resize } = this.props;
-
-        console.log(this.props);
+        const { images, shownImage, showOverlay, dimensions, resize } = this.props;
+        const dispatch  = this.props.dispatch;
 
         return (
             <div style={dimensions}>
                 <WindowResizeListener onResize={windowSize => {
                     if (resize) {
-                        store.dispatch(resizeGallery({
+                        dispatch(resizeGallery({
                             width: windowSize.windowWidth - 16, 
                             height: windowSize.windowHeight 
                         }));
@@ -42,6 +45,8 @@ class GalleryContainer extends Component {
                 <Gallery 
                     galleryWidth={ dimensions.width }
                     images={ images } 
+                    showOverlay={ showOverlay }
+                    dispatch={ dispatch }
                 />
             </div>
         )
@@ -50,11 +55,11 @@ class GalleryContainer extends Component {
 
 const mapStateToProps = state => {
     return {
-        images: state.gallery.images,
-        showOverlay: state.gallery.showOverlay,
-        shownImage: state.gallery.shownImage,
-        dimensions: state.gallery.dimensions,
-        resize: state.gallery.resize
+        images: state.images,
+        showOverlay: state.gallery.options.showOverlay,
+        shownImage: state.gallery.options.shownImage,
+        resize: state.gallery.options.resize,
+        dimensions: state.gallery.dimensions
     }
 }
 
@@ -62,7 +67,7 @@ const mapDispatchToProps = dispatch => ({
     appendImage: image => dispatch(image),
     prependImage: image => dispatch(image),
     resizeGallery: dimensions => dispatch(dimensions),
-    toggleOverlay: (showOverlay, image) => dispatch(showOverlay, image),
+    toggleOverlay: overlay => dispatch(overlay),
     toggleResize: resize => dispatch(resize)
 })
 

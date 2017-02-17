@@ -14,44 +14,9 @@ export default class Gallery extends Component {
         super(props);
     }
 
-    componentWillMount() {
-        const images = [];
-        const widths = [];
-        
-        /*
-            Gets the dimensions of an image at a given url
-            which are accessible inside the callback
-         */
-
-        function getDimensions(url, callback) {
-            let img = new Image();
-            img.src = url;
-            img.onload = function() { callback({ width: this.width, height: this.height }); }
-        }
-
-        /*
-            Continuously pushes images inside an array
-            and then triggers a state change with each new
-            added image so we can re-render the gallery
-        
-
-        for (const image of this.props.images) {
-            getDimensions(image, dimensions => {
-                images.push({dimensions: dimensions, src: image});
-                widths.push(dimensions.width);
-
-                this.setState({
-                    images: images,
-                    widths: widths
-                })
-            });
-        }
-         */
-    }
-
     render() {
         const showOverlay = this.props.showOverlay;
-        const invisibleDivs = [];
+        const displayOverlay = this.props.displayOverlay;
 
         return (
             <div className={ !showOverlay ? styles.picContainer : styles.hidden }>
@@ -62,8 +27,7 @@ export default class Gallery extends Component {
                         <div key={ index } className={ !showOverlay ? styles.pic : styles.hidden }>
                             <img 
                                 src={ image.src } 
-                                closeOverlay={ this.props.closeOverlay }
-                                onClick={ () => { this.props.renderOverlay(image) } }
+                                onClick={ () => { displayOverlay(image.src) }}
                                 { ...resizedImage.dimensions }
                             />
                         </div>

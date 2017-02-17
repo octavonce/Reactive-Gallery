@@ -19,11 +19,10 @@ export const resizeGallery = dimensions => {
     }
 }
 
-export const toggleOverlay = (showOverlay, shownImage) => {
+export const toggleOverlay = overlay => {
     return {
         type: 'TOGGLE_OVERLAY',
-        shownImage: shownImage,
-        showOverlay: showOverlay
+        overlay: overlay
     }
 }
 

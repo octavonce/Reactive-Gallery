@@ -29,6 +29,12 @@ const utils = {
         image.dimensions.width = width;
 
         return image;
+    },
+
+    getDimensions: (url, callback) => {
+        let img = new Image();
+        img.src = url;
+        img.onload = function() { callback({ width: this.width, height: this.height }); }
     }
 }
 

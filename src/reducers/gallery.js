@@ -14,7 +14,10 @@ const gallery = (state = defaultState, action) => {
     switch (action.type) {
         case 'RESIZE_GALLERY':
             return Object.assign({}, state, {
-                dimensions: action.dimensions
+                dimensions: {
+                    width: action.dimensions.width,
+                    height: action.dimensions.height
+                }
             })
         case 'TOGGLE_OVERLAY':
             return Object.assign({}, state, {

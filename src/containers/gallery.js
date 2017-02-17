@@ -22,31 +22,35 @@ class GalleryContainer extends Component {
         showOverlay: PropTypes.bool.isRequired,
         shownImage: PropTypes.string.isRequired,
         dimensions: PropTypes.object.isRequired,
-        resize: PropTypes.bool.isRequired
+        resize: PropTypes.bool.isRequired,
+        renderOverlay: PropTypes.func.isRequired,
+        destroyOverlay: PropTypes.func.isRequired
     };
 
     render() {
-        const { images, shownImage, showOverlay, dimensions, resize } = this.props;
-        const dispatch  = this.props.dispatch;
+        const { 
+            images, 
+            shownImage, 
+            showOverlay, 
+            dimensions, 
+            resize, 
+            resizeTheGallery,
+            renderOverlay,
+            destroyOverlay } = this.props;
 
         return (
             <div style={dimensions}>
                 <WindowResizeListener onResize={windowSize => {
-                    if (resize) {
-                        dispatch(resizeGallery({
-                            width: windowSize.windowWidth - 16, 
-                            height: windowSize.windowHeight 
-                        }));
-                    }
+                    if (resize) resizeTheGallery(windowSize);
                 }} />
 
-                { showOverlay ? <Overlay image={ shownImage } /> : null }
+                { showOverlay ? <Overlay image={ shownImage } destroyOverlay={ destroyOverlay } /> : null }
                 
                 <Gallery 
                     galleryWidth={ dimensions.width }
                     images={ images } 
                     showOverlay={ showOverlay }
-                    dispatch={ dispatch }
+                    renderOverlay={ renderOverlay }
                 />
             </div>
         )

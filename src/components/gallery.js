@@ -16,7 +16,7 @@ export default class Gallery extends Component {
 
     render() {
         const showOverlay = this.props.showOverlay;
-        const displayOverlay = this.props.displayOverlay;
+        const renderOverlay = this.props.renderOverlay;
 
         return (
             <div className={ !showOverlay ? styles.picContainer : styles.hidden }>
@@ -27,7 +27,7 @@ export default class Gallery extends Component {
                         <div key={ index } className={ !showOverlay ? styles.pic : styles.hidden }>
                             <img 
                                 src={ image.src } 
-                                onClick={ () => { displayOverlay(image.src) }}
+                                onClick={ () => { renderOverlay(image) }}
                                 { ...resizedImage.dimensions }
                             />
                         </div>

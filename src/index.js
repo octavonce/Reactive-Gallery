@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import gallery from './reducers/gallery.js'
 import GalleryContainer from './containers/gallery.js';
+import { WindowResizeListener } from 'react-window-resize-listener';
 import utils from './lib/utils.js';
 import store from './store.js';
 import { 
@@ -12,6 +13,22 @@ import {
     resizeGallery, 
     toggleResize,
     toggleOverlay } from './actions/gallery.js';
+
+/*
+    Usage: 
+    
+    const options = {...}
+    gallery = reactiveGallery(options);
+
+    // Create the gallery
+    gallery.createGallery(images, containerId);
+
+    // Prepend image
+    gallery.prependImage(imagePath);
+
+    // Append image
+    gallery.appendImage(imagePath);
+ */
 
 
 const reactiveGallery = options => {
@@ -24,8 +41,8 @@ const reactiveGallery = options => {
         
         constructGalleryDimensions(dimensions)
             .then(checkForResize(dimensions))
-            .then(appendInitialImages(images))
-            .then(renderInitialGallery(id));
+            .then(renderInitialGallery(id))
+            .then(appendInitialImages(images));
     }
 
     const appendInitialImages = images => {
@@ -65,16 +82,36 @@ const reactiveGallery = options => {
     const renderInitialGallery = id => {
         return new Promise((resolve, reject) => {
 
-            console.log('Initial state   ', store.getState());
-
             ReactDOM.render(
                 <Provider store={ store }>
-                    <GalleryContainer dispatch={ store.dispatch } />
+                    <GalleryContainer 
+                        dispatch={ store.dispatch }
+                        renderOverlay={ renderOverlay }
+                        destroyOverlay={ destroyOverlay } 
+                        resizeTheGallery={ resizeTheGallery }
+                    />
                 </Provider>, 
                 document.getElementById(id)
             );
         })
     } 
+
+    const resizeTheGallery = windowSize => {
+        const dimensions = {
+            width: windowSize.windowWidth - 16, 
+            height: windowSize.windowHeight 
+        }
+
+        store.dispatch(resizeGallery(dimensions));
+    }
+
+    const renderOverlay = image => {
+        store.dispatch(toggleOverlay({ showOverlay: true, shownImage: image }));
+    }
+
+    const destroyOverlay = () => {
+        store.dispatch(toggleOverlay({ showOverlay: false, shownImage: null }));
+    }
 
     return {
         createGallery: (images, id) => {
@@ -86,70 +123,18 @@ const reactiveGallery = options => {
         prependImage: (path) => {
             utils.getDimensions(path, dimensions => {
                 const imgObject = { src: path, dimensions: dimensions }; 
-                store.dispatch(appendImage(imgObject));
+                store.dispatch(prependImage(imgObject));
             })
         },
 
         appendImage: (path) => {
             utils.getDimensions(path, dimensions => {
                 const imgObject = { src: path, dimensions: dimensions }; 
-                store.dispatch(prependImage(imgObject));
+                store.dispatch(appendImage(imgObject));
             })
         }
     }
 }
-
-const images = [
-    'http://lorempixel.com/400/200/',
-    'http://lorempixel.com/400/200/',
-    'http://lorempixel.com/400/200/',
-    'http://lorempixel.com/400/400/',
-    'http://lorempixel.com/500/300/',
-    'http://lorempixel.com/1200/800/',
-    'http://lorempixel.com/900/400/',
-    'http://lorempixel.com/1920/1080/',
-    'http://lorempixel.com/400/400/',
-    'http://lorempixel.com/400/400/',
-    'http://lorempixel.com/800/600/',
-    'http://lorempixel.com/800/600/',
-    'http://lorempixel.com/4280/2100/',
-    'http://lorempixel.com/800/600/',
-    'http://lorempixel.com/800/600/',
-    'http://lorempixel.com/800/600/'
-]
-
-const sameSizeImages = [
-    'http://lorempixel.com/1280/720/',
-    'http://lorempixel.com/1280/720/',
-    'http://lorempixel.com/1280/720/',
-    'http://lorempixel.com/1280/720/',
-    'http://lorempixel.com/1280/720/',
-    'http://lorempixel.com/1280/720/',
-    'http://lorempixel.com/1280/720/',
-    'http://lorempixel.com/1280/720/',
-    'http://lorempixel.com/1280/720/',
-    'http://lorempixel.com/1280/720/',
-    'http://lorempixel.com/1280/720/',
-    'http://lorempixel.com/1280/720/',
-    'http://lorempixel.com/1280/720/',
-    'http://lorempixel.com/1280/720/',
-    'http://lorempixel.com/1280/720/',
-    'http://lorempixel.com/1280/720/',
-    'http://lorempixel.com/1280/720/',
-    'http://lorempixel.com/1280/720/',
-    'http://lorempixel.com/1280/720/',
-    'http://lorempixel.com/1280/720/',
-    'http://lorempixel.com/1280/720/'
-]
-
-const containerId = 'reactive-gallery';
-const react_gallery = reactiveGallery({});
-
-react_gallery.createGallery(sameSizeImages, containerId);
-
-setInterval(() => {
-    react_gallery.prependImage('https://s-media-cache-ak0.pinimg.com/736x/26/7f/70/267f709e4c8b696957ebf9f187c0d344.jpg');
-}, 6000);
 
 export default reactiveGallery;
 

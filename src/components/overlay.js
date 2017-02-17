@@ -16,7 +16,7 @@ export default class Overlay extends Component {
         
         return (
             <div className={ styles.overlay }>
-                <span className={ styles.closeBtn } onClick={ this.props.closeOverlay } />
+                <span className={ styles.closeBtn } onClick={ this.props.destroyOverlay } />
                 <img className={ styles.overlayPic } src={ img.src } { ...img.dimensions } />
             </div>
         )

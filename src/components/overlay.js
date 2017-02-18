@@ -4,11 +4,27 @@ import utils from '../lib/utils.js';
 
 export default class Overlay extends Component {
     propTypes: {
-        closeOverlay: React.propTypes.func.isRequired
+        destroyOverlay: React.propTypes.func.isRequired
     }
 
     constructor(props) {
         super(props);
+
+        this.handleKeyDown = this.handleKeyDown.bind(this);
+    }
+
+    handleKeyDown(event) {
+        if (event.keyCode === 27) {
+            this.props.destroyOverlay();
+        }
+    }
+
+    componentWillMount() {
+        window.addEventListener('keydown', this.handleKeyDown);
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('keydown', this.handleKeyDown);
     }
 
     render() {

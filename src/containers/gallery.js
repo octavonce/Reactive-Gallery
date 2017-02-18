@@ -40,7 +40,7 @@ class GalleryContainer extends Component {
             destroyOverlay,
             maxThumbnailWidth,
             maxThumbnailHeight } = this.props;
-            
+
         return (
             <div style={ dimensions }>
                 <WindowResizeListener onResize={windowSize => {

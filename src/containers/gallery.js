@@ -13,10 +13,6 @@ import {
     toggleResize } from '../actions/gallery.js';
 
 class GalleryContainer extends Component {
-    static contextTypes: {
-        store: React.PropTypes.object.isRequired,
-    }
-
     static propTypes: {
         images: PropTypes.array.isRequired,
         showOverlay: PropTypes.bool.isRequired,
@@ -41,8 +37,15 @@ class GalleryContainer extends Component {
             maxThumbnailWidth,
             maxThumbnailHeight } = this.props;
 
+        const styleObject = !!background ? {
+            width: dimensions.width,
+            height: dimensions.height,
+            backgroundImage: 'url(' + background + ')',
+            backgroundSize: 'cover'
+        } : dimensions;
+
         return (
-            <div style={ dimensions }>
+            <div className={ styles.containerDiv } style={ styleObject }>
                 <WindowResizeListener onResize={windowSize => {
                     if (resize) resizeTheGallery(windowSize);
                 }} />

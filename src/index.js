@@ -183,4 +183,3 @@ const reactiveGallery = options => {
 }
 
 export default reactiveGallery;
-

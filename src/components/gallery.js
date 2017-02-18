@@ -16,10 +16,9 @@ export default class Gallery extends Component {
 
     render() {
         const { showOverlay, renderOverlay, maxThumbnailWidth, maxThumbnailHeight, background } = this.props;
-        const backgroundObject = !!background ? { backgroundImage: 'url(' + background + ')' } : {};
 
         return (
-            <div className={ !showOverlay ? styles.picContainer : styles.hidden } style={ backgroundObject }>
+            <div className={ !showOverlay ? styles.picContainer : styles.hidden } >
                 {this.props.images.map((image, index) => {
                     const resizedImage = utils.resizeImage(image, maxThumbnailWidth, maxThumbnailHeight);
 

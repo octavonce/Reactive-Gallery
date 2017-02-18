@@ -30,16 +30,19 @@ class GalleryContainer extends Component {
     render() {
         const { 
             images, 
+            background,
             shownImage, 
             showOverlay, 
             dimensions, 
             resize, 
             resizeTheGallery,
             renderOverlay,
-            destroyOverlay } = this.props;
-
+            destroyOverlay,
+            maxThumbnailWidth,
+            maxThumbnailHeight } = this.props;
+            
         return (
-            <div style={dimensions}>
+            <div style={ dimensions }>
                 <WindowResizeListener onResize={windowSize => {
                     if (resize) resizeTheGallery(windowSize);
                 }} />
@@ -51,6 +54,9 @@ class GalleryContainer extends Component {
                     images={ images } 
                     showOverlay={ showOverlay }
                     renderOverlay={ renderOverlay }
+                    maxThumbnailWidth={ maxThumbnailWidth }
+                    maxThumbnailHeight={ maxThumbnailHeight }
+                    background={ background }
                 />
             </div>
         )

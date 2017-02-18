@@ -1,10 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
 import gallery from './reducers/gallery.js'
 import GalleryContainer from './containers/gallery.js';
-import { WindowResizeListener } from 'react-window-resize-listener';
 import utils from './lib/utils.js';
 import store from './store.js';
 import { 
@@ -17,7 +15,12 @@ import {
 /*
     Usage: 
     
-    const options = {...}
+    const options = {
+        maxThumbnailWidth: 380,
+        maxThumbnailHeight: 200,
+        background: backgroundPath
+    }
+
     gallery = reactiveGallery(options);
 
     // Create the gallery
@@ -30,10 +33,53 @@ import {
     gallery.appendImage(imagePath);
  */
 
-
 const reactiveGallery = options => {
-    let containerId;
-    let storedImages = [];
+
+    /*
+        Checks the options object
+        that is passed to the gallery
+     */
+
+    const checkOptions = options => {
+
+        /*
+            Add more options here
+         */
+
+        const defaultOptions = {
+            maxThumbnailWidth: 380,
+            maxThumbnailHeight: 200,
+            background: null
+        }
+
+        if (typeof options === 'undefined') {
+            return defaultOptions;
+        } else {
+
+            /*
+                When an option is left out,
+                the default value is returned
+                instead
+             */
+
+            const checkedMaxThumbnailWidth = 
+                typeof options.maxThumbnailWidth === 'undefined' ? 380 : options.maxThumbnailWidth;
+            
+            const checkedMaxThumbnailHeight = 
+                typeof options.maxThumbnailHeight === 'undefined' ? 200 : options.maxThumbnailHeight;
+
+            const checkedBackground = 
+                typeof options.background === 'undefined' ? null : options.background;
+            
+            return {
+                maxThumbnailWidth: checkedMaxThumbnailWidth,
+                maxThumbnailHeight: checkedMaxThumbnailHeight,
+                background: checkedBackground
+            }
+        }
+    }
+
+    const parsedOptions = checkOptions(options);
  
     const renderGallery = (images, id) => {
         const rootContainerDimensions = document.getElementById(id).getBoundingClientRect();
@@ -41,7 +87,7 @@ const reactiveGallery = options => {
         
         constructGalleryDimensions(dimensions)
             .then(checkForResize(dimensions))
-            .then(renderInitialGallery(id))
+            .then(constructGallery(id))
             .then(appendInitialImages(images));
     }
 
@@ -67,6 +113,7 @@ const reactiveGallery = options => {
              */
 
             const resize = window.innerWidth === dimensions.width ? true : false;
+
             store.dispatch(toggleResize(resize));
             resolve();
         })
@@ -79,9 +126,8 @@ const reactiveGallery = options => {
         })
     }
     
-    const renderInitialGallery = id => {
+    const constructGallery = id => {
         return new Promise((resolve, reject) => {
-
             ReactDOM.render(
                 <Provider store={ store }>
                     <GalleryContainer 
@@ -89,10 +135,12 @@ const reactiveGallery = options => {
                         renderOverlay={ renderOverlay }
                         destroyOverlay={ destroyOverlay } 
                         resizeTheGallery={ resizeTheGallery }
+                        { ...parsedOptions }
                     />
                 </Provider>, 
                 document.getElementById(id)
             );
+            resolve();
         })
     } 
 
@@ -115,19 +163,17 @@ const reactiveGallery = options => {
 
     return {
         createGallery: (images, id) => {
-            storedImages = images;
-            containerId = id;
             renderGallery(images, id);
         },
 
-        prependImage: (path) => {
+        prependImage: path => {
             utils.getDimensions(path, dimensions => {
                 const imgObject = { src: path, dimensions: dimensions }; 
                 store.dispatch(prependImage(imgObject));
             })
         },
 
-        appendImage: (path) => {
+        appendImage: path => {
             utils.getDimensions(path, dimensions => {
                 const imgObject = { src: path, dimensions: dimensions }; 
                 store.dispatch(appendImage(imgObject));

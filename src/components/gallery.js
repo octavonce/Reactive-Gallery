@@ -15,13 +15,13 @@ export default class Gallery extends Component {
     }
 
     render() {
-        const showOverlay = this.props.showOverlay;
-        const renderOverlay = this.props.renderOverlay;
+        const { showOverlay, renderOverlay, maxThumbnailWidth, maxThumbnailHeight, background } = this.props;
+        const backgroundObject = !!background ? { backgroundImage: 'url(' + background + ')' } : {};
 
         return (
-            <div className={ !showOverlay ? styles.picContainer : styles.hidden }>
+            <div className={ !showOverlay ? styles.picContainer : styles.hidden } style={ backgroundObject }>
                 {this.props.images.map((image, index) => {
-                    const resizedImage = utils.resizeImage(image, 380, 200);
+                    const resizedImage = utils.resizeImage(image, maxThumbnailWidth, maxThumbnailHeight);
 
                     return (
                         <div key={ index } className={ !showOverlay ? styles.pic : styles.hidden }>

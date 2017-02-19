@@ -3,8 +3,11 @@ import styles from '../assets/css/overlay.css';
 import utils from '../lib/utils.js';
 
 export default class Overlay extends Component {
-    propTypes: {
-        destroyOverlay: React.propTypes.func.isRequired
+    static propTypes: {
+        image: React.PropTypes.object.isRequired,
+        destroyOverlay: React.propTypes.func.isRequired,
+        galleryWidth: React.PropTypes.number.isRequired,
+        galleryHeight: React.PropTypes.number.isRequired
     }
 
     constructor(props) {

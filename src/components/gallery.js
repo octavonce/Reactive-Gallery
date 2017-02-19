@@ -4,10 +4,15 @@ import styles from '../assets/css/gallery.css';
 import utils from '../lib/utils.js';
 
 export default class Gallery extends Component {
-    propTypes: {
+    static propTypes: {
         renderOverlay: React.PropTypes.func.isRequired,
+        showOverlay: React.PropTypes.boolean.isRequired,
         closeOverlay: React.PropTypes.func.isRequired,
-        images: React.PropTypes.Array
+        images: React.PropTypes.Array,
+        background: React.PropTypes.string.isRequired,
+        maxThumbnailWidth: React.PropTypes.number.isRequired,
+        maxThumbnailHeight: React.PropTypes.number.isRequired,
+        galleryWidth: React.PropTypes.number.isRequired
     }
 
     constructor(props) {

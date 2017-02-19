@@ -14,13 +14,16 @@ import {
 
 class GalleryContainer extends Component {
     static propTypes: {
-        images: PropTypes.array.isRequired,
-        showOverlay: PropTypes.bool.isRequired,
-        shownImage: PropTypes.string.isRequired,
-        dimensions: PropTypes.object.isRequired,
-        resize: PropTypes.bool.isRequired,
-        renderOverlay: PropTypes.func.isRequired,
-        destroyOverlay: PropTypes.func.isRequired
+        images: React.PropTypes.array.isRequired,
+        showOverlay: React.PropTypes.bool.isRequired,
+        shownImage: React.PropTypes.string.isRequired,
+        dimensions: React.PropTypes.object.isRequired,
+        resize: React.PropTypes.bool.isRequired,
+        renderOverlay: React.PropTypes.func.isRequired,
+        destroyOverlay: React.PropTypes.func.isRequired,
+        resizeTheGallery: React.PropTypes.func.isRequired,
+        maxThumbnailWidth: React.PropTypes.number.isRequired,
+        maxThumbnailHeight: React.PropTypes.number.isRequired
     };
 
     render() {

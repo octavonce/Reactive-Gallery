@@ -15,7 +15,14 @@ export default class Overlay extends Component {
 
     handleKeyDown(event) {
         if (event.keyCode === 27) {
+            // Handle pressing escape
             this.props.destroyOverlay();
+        } else if (event.keyCode === 37) {
+            // Handle left arrow press
+            console.log('Left arrow pressed');
+        } else if (event.keyCode === 39) {
+            // Handle right arrow press
+            console.log('Right arrow pressed');
         }
     }
 
@@ -26,9 +33,19 @@ export default class Overlay extends Component {
     componentWillUnmount() {
         window.removeEventListener('keydown', this.handleKeyDown);
     }
-
     render() {
-        const img = utils.resizeImage(this.props.image, 1440, 960);
+        const handleImage = image => {
+            const heightPercentageInPixels = utils.getPercent(50, this.props.galleryHeight);
+            const widthPercentageInPixels = utils.getPercent(75, this.props.galleryWidth); 
+
+            if (image.height > heightPercentageInPixels && image.width > widthPercentageInPixels) {
+                return utils.resizeImage(image, widthPercentageInPixels, heightPercentageInPixels);
+            } else {
+                return image;
+            }
+        }
+
+        const img = handleImage(this.props.image);
         
         return (
             <div className={ styles.overlay }>

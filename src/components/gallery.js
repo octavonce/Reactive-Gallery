@@ -15,10 +15,10 @@ export default class Gallery extends Component {
     }
 
     render() {
-        const { showOverlay, renderOverlay, maxThumbnailWidth, maxThumbnailHeight, background } = this.props;
+        const { showOverlay, renderOverlay, maxThumbnailWidth, maxThumbnailHeight, background, galleryWidth } = this.props;
 
         return (
-            <div className={ !showOverlay ? styles.picContainer : styles.hidden } >
+            <div className={ !showOverlay ? styles.picContainer : styles.hidden } style={{ width: galleryWidth }}>
                 {this.props.images.map((image, index) => {
                     const resizedImage = utils.resizeImage(image, maxThumbnailWidth, maxThumbnailHeight);
 

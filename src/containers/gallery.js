@@ -44,23 +44,31 @@ class GalleryContainer extends Component {
             backgroundSize: 'cover'
         } : dimensions;
 
+        const overlayProps = {
+            image: shownImage,
+            galleryWidth: dimensions.width,
+            galleryHeight: dimensions.height,
+            destroyOverlay: destroyOverlay
+        }
+
+        const galleryProps = {
+            galleryWidth: dimensions.width,
+            images: images,
+            showOverlay: showOverlay,
+            renderOverlay: renderOverlay,
+            maxThumbnailWidth: maxThumbnailWidth,
+            maxThumbnailHeight: maxThumbnailHeight,
+            background: background
+        }
+
         return (
             <div className={ styles.containerDiv } style={ styleObject }>
                 <WindowResizeListener onResize={windowSize => {
                     if (resize) resizeTheGallery(windowSize);
                 }} />
 
-                { showOverlay ? <Overlay image={ shownImage } destroyOverlay={ destroyOverlay } /> : null }
-                
-                <Gallery 
-                    galleryWidth={ dimensions.width }
-                    images={ images } 
-                    showOverlay={ showOverlay }
-                    renderOverlay={ renderOverlay }
-                    maxThumbnailWidth={ maxThumbnailWidth }
-                    maxThumbnailHeight={ maxThumbnailHeight }
-                    background={ background }
-                />
+                { showOverlay ? <Overlay { ...overlayProps } /> : null }
+                <Gallery { ...galleryProps } />
             </div>
         )
     }

@@ -12,38 +12,12 @@ import {
     toggleResize,
     toggleOverlay } from './actions/gallery.js';
 
-/*
-    Usage: 
-    
-    const options = {
-        maxThumbnailWidth: 380,
-        maxThumbnailHeight: 200,
-        background: backgroundPath
-    }
-
-    gallery = reactiveGallery(options);
-
-    // Create the gallery
-    gallery.createGallery(images, containerId);
-
-    // Prepend image
-    gallery.prependImage(imagePath);
-
-    // Append image
-    gallery.appendImage(imagePath);
- */
-
 const reactiveGallery = options => {
-
-    /*
-        Checks the options object
-        that is passed to the gallery
-     */
-
     const checkOptions = options => {
 
         /*
-            Add more options here
+            Checks the options object
+            that is passed to the gallery
          */
 
         const defaultOptions = {
@@ -80,16 +54,6 @@ const reactiveGallery = options => {
     }
 
     const parsedOptions = checkOptions(options);
- 
-    const renderGallery = (images, id) => {
-        const rootContainerDimensions = document.getElementById(id).getBoundingClientRect();
-        const dimensions = { width: rootContainerDimensions.width, height: rootContainerDimensions.height };
-        
-        constructGalleryDimensions(dimensions)
-            .then(checkForResize(dimensions))
-            .then(constructGallery(id))
-            .then(appendInitialImages(images));
-    }
 
     const appendInitialImages = images => {
         return new Promise((resolve, reject) => {
@@ -126,7 +90,7 @@ const reactiveGallery = options => {
         })
     }
     
-    const constructGallery = id => {
+    const constructGallery = selector => {
         return new Promise((resolve, reject) => {
             ReactDOM.render(
                 <Provider store={ store }>
@@ -138,7 +102,7 @@ const reactiveGallery = options => {
                         { ...parsedOptions }
                     />
                 </Provider>, 
-                document.getElementById(id)
+                document.querySelector(selector)
             );
             resolve();
         })
@@ -162,8 +126,14 @@ const reactiveGallery = options => {
     }
 
     return {
-        createGallery: (images, id) => {
-            renderGallery(images, id);
+        createGallery: (images, querySelector) => {
+            const rootContainerDimensions = document.querySelector(querySelector).getBoundingClientRect();
+            const dimensions = { width: rootContainerDimensions.width, height: rootContainerDimensions.height };
+            
+            constructGalleryDimensions(dimensions)
+                .then(checkForResize(dimensions))
+                .then(constructGallery(querySelector))
+                .then(appendInitialImages(images));
         },
 
         prependImage: path => {

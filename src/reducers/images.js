@@ -7,10 +7,8 @@ const images = (state = [], action) => {
         case 'REMOVE_IMAGE':
             const index = state.indexOf(action.image);
 
-            if (index > -1) 
-                return state.slice(index, 1);
-            else 
-                return state;
+            if (index > -1) return state.slice(index, 1);
+            else return state;
         default:
             return state;
     }

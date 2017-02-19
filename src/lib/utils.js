@@ -25,17 +25,21 @@ const utils = {
             width = height / ratio;
         }
 
-        image.dimensions.height = height;
-        image.dimensions.width = width;
-
-        return image;
+        return Object.assign({}, image, {
+            dimensions: {
+                height: height,
+                width: width
+            }
+        });
     },
 
     getDimensions: (url, callback) => {
         let img = new Image();
         img.src = url;
         img.onload = function() { callback({ width: this.width, height: this.height }); }
-    }
+    },
+
+    getPercent: (percent, number) => percent / 100 * number
 }
 
 

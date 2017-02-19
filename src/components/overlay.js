@@ -36,12 +36,13 @@ export default class Overlay extends Component {
     componentWillUnmount() {
         window.removeEventListener('keydown', this.handleKeyDown);
     }
+
     render() {
         const handleImage = image => {
             const heightPercentageInPixels = utils.getPercent(50, this.props.galleryHeight);
             const widthPercentageInPixels = utils.getPercent(75, this.props.galleryWidth); 
 
-            if (image.height > heightPercentageInPixels && image.width > widthPercentageInPixels) {
+            if (image.dimensions.height > heightPercentageInPixels && image.dimensions.width > widthPercentageInPixels) {
                 return utils.resizeImage(image, widthPercentageInPixels, heightPercentageInPixels);
             } else {
                 return image;

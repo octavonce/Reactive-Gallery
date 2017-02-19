@@ -95,7 +95,6 @@ const reactiveGallery = options => {
             ReactDOM.render(
                 <Provider store={ store }>
                     <GalleryContainer 
-                        dispatch={ store.dispatch }
                         renderOverlay={ renderOverlay }
                         destroyOverlay={ destroyOverlay } 
                         resizeTheGallery={ resizeTheGallery }

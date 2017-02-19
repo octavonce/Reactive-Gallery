@@ -39,7 +39,9 @@ const utils = {
         img.onload = function() { callback({ width: this.width, height: this.height }); }
     },
 
-    getPercent: (percent, number) => percent / 100 * number
+    getPercent: (percent, number) => {
+        return percent / 100 * number;
+    }
 }
 
 

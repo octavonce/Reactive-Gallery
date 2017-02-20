@@ -151,4 +151,4 @@ const reactiveGallery = options => {
     }
 }
 
-export default reactiveGallery;
+module.exports = reactiveGallery;

@@ -10,7 +10,9 @@ module.exports = {
     output: {
         path: path.join(__dirname, 'dist'),
         filename: 'reactive-gallery.js',
-        publicPath: '/static/'
+        publicPath: '/static/',
+        libraryTarget: 'var',
+        library: 'reactiveGallery'
     },
     plugins: [
         new webpack.HotModuleReplacementPlugin()

@@ -23,6 +23,7 @@ const reactiveGallery = options => {
         const defaultOptions = {
             maxThumbnailWidth: 380,
             maxThumbnailHeight: 200,
+            thumbnailRatio: '4:3',
             background: null
         }
 
@@ -44,10 +45,14 @@ const reactiveGallery = options => {
 
             const checkedBackground = 
                 typeof options.background === 'undefined' ? null : options.background;
+
+            const checkedRatio = 
+                typeof options.thumbnailRatio === 'undefined' ? '4:3' : options.thumbnailRatio;
             
             return {
                 maxThumbnailWidth: checkedMaxThumbnailWidth,
                 maxThumbnailHeight: checkedMaxThumbnailHeight,
+                thumbnailRatio: checkedRatio,
                 background: checkedBackground
             }
         }

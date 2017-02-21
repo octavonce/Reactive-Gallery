@@ -39,11 +39,11 @@ export default class Overlay extends Component {
 
     render() {
         const handleImage = image => {
-            const heightPercentageInPixels = utils.getPercent(50, this.props.galleryHeight);
-            const widthPercentageInPixels = utils.getPercent(75, this.props.galleryWidth); 
+            const heightPercentageInPixels = utils.getPercent(60, this.props.galleryHeight);
+            const widthPercentageInPixels = utils.getPercent(85, this.props.galleryWidth); 
 
             if (image.dimensions.height > heightPercentageInPixels && image.dimensions.width > widthPercentageInPixels) {
-                return utils.resizeImage(image, widthPercentageInPixels, heightPercentageInPixels);
+                return utils.resizeImage(image, widthPercentageInPixels, heightPercentageInPixels, true);
             } else {
                 return image;
             }

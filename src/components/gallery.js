@@ -25,7 +25,10 @@ export default class Gallery extends Component {
         return (
             <div className={ !showOverlay ? styles.picContainer : styles.hidden } style={{ width: galleryWidth }}>
                 {this.props.images.map((image, index) => {
-                    const resizedImage = utils.resizeImage(image, maxThumbnailWidth, maxThumbnailHeight);
+                    const imgWidth = image.dimensions.width;
+                    const imgHeight = image.dimensions.height;
+                    const keepRatio = utils.getRatio(imgWidth, imgHeight) === '4:3' ? true : false;
+                    const resizedImage = utils.resizeImage(image, maxThumbnailWidth, maxThumbnailHeight, keepRatio);
 
                     return (
                         <div key={ index } className={ !showOverlay ? styles.pic : styles.hidden }>

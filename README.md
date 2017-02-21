@@ -14,7 +14,8 @@ Start the server:
 const options = {
     maxThumbnailWidth: 380,
     maxThumbnailHeight: 200,
-    background: backgroundPath
+    thumbnailRatio: '4:3',
+    background: '/some/background/path'
 }
 
 gallery = reactiveGallery(options);
